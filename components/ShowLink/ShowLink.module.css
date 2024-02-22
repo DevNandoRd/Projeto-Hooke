@@ -1,0 +1,36 @@
+.modal {
+    display: flex;
+    flex-direction: column;
+}
+.box {
+    padding: 5px;
+}
+.box h2 {
+font-size: 35px;
+text-align: center;
+font-weight: 700;
+color: var(--Azul-escuro);
+}
+.box h1 {
+    font-size: 16px;
+    color: var(--Azul);
+    font-weight: 300;
+}
+.linkGerado {
+    border: solid 2px var(--Azul);
+    padding: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    user-select: all;
+    text-align: center;
+    white-space: nowrap;
+}
+.modal button {
+    background-color: var(--Azul);
+    color: white;
+    transition: 0.3s ease-in-out;
+}
+.modal button:hover {
+    background-color: var(--Verde);
+    transform: scale(1.01);
+}

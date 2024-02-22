@@ -1,0 +1,66 @@
+.container {
+    display: flex;
+    padding: 40px 0px;
+    background-image: url(/assets/banner.jpg);
+    background-position: top center;
+    background-size: cover;
+}
+.section {
+display: flex;
+}
+.titulo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 50%;
+    color: white;
+}
+.titulo h1 {
+    font-size: 42px;
+    font-weight: 800;
+    line-height: 45px;
+}
+.titulo h2 {
+    line-height: 35px;
+}
+.section button {
+    width: 50%;
+    transition: 0.3s ease-in-out;
+}
+.section button:hover {
+    transform: scale(1.05);
+}
+
+@media screen and (max-width: 600px) {
+    .container {
+        padding: 40px 20px;
+        background-image: url(/assets/banner-mobile.jpg);
+        background-position: bottom center;
+        background-size: cover;
+        height: 690px;
+    }
+    .section {
+        justify-content: center;
+    }
+    .titulo {
+        width: 100%;
+        text-align: center;
+        align-items: center;
+    }
+    .titulo h1 {
+        font-size: 35px;
+        line-height: 35px;
+    }
+    .titulo h2 {
+        font-size: 18px;
+        line-height: 18px;
+    }
+    .section button {
+        margin-top: 10px;
+        width: 50%;
+        transition: 0.3s ease-in-out;
+    }
+    .section button:hover {
+        transform: scale(1.05);
+    }
+}

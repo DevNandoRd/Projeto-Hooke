@@ -6,7 +6,7 @@ import Modal from '@mui/material/Modal';
 import styles from '../ShowLink/ShowLink.module.css'
 
 const style = {
-  position: 'absolute' as 'absolute',
+  position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',

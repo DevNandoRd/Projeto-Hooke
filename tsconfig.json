@@ -21,6 +21,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/GeradorLink/GeradorLink.tsx", "components/Header/Header.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "components/GeradorLink/GeradorLink.jsx", "components/Header/Header.jsx", "components/Banner/Banner.jsx", "components/Footer/Footer.jsx", "components/ShowLink/ShowLink.jsx", "components/Main/Main.jsx", "components/Layout/Layout.jsx", "components/Theme/Theme.jsx"],
   "exclude": ["node_modules"]
 }

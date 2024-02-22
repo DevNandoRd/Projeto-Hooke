@@ -6,8 +6,8 @@ import Showlink from '../ShowLink/ShowLink';
 
 
 export default function GeradorLink() {
-  const [numero, setNumero] = useState<number>()
-  const [texto, setTexto] = useState<string>('')
+  const [numero, setNumero] = useState()
+  const [texto, setTexto] = useState('')
 
   const handleNumber = (e) => {
     setNumero(e.target.value)

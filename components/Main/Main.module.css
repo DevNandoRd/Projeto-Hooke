@@ -18,7 +18,7 @@
 .boxList {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 18px;
 }
 .icon {
     margin-left: -40px;

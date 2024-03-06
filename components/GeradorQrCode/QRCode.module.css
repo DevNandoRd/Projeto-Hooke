@@ -1,0 +1,14 @@
+.QrCode {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+.QrCode button {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--Azul);
+    color: white;
+    cursor: pointer;
+}

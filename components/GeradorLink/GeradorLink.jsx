@@ -15,14 +15,8 @@ export default function GeradorLink() {
   const handleText = (e) => {
     setTexto(e.target.value)
   }
-  const handleSpace = () => {
-    const space = texto.split(' ').join('%20')
-    setTexto(space)
-  }
-  const handleWrapText = () => {
-    const wrapText = texto.split('\n').join('%0A')
-    setTexto(wrapText)
-  }
+
+  console.log(numero)
   return (
     <>
       <div className={styles.form}>
@@ -41,8 +35,6 @@ export default function GeradorLink() {
           onChange={handleText}
         />
         <Showlink
-          pegarTexto={handleWrapText}
-          pegarEspaco={handleSpace}
           texto={texto}
           numero={numero}
         />

@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import styles from '../ShowLink/ShowLink.module.css'
+import QRCodeGenerator from "../GeradorQrCode/QRCodeGenerator"
 
 const style = {
   position: 'absolute',
@@ -17,44 +18,77 @@ const style = {
   p: 4,
 };
 
-export default function ShowLink({ texto, numero, pegarTexto, pegarEspaco }) {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    if (numero.length == 0) {
+export default function ShowLink({ texto, numero }) {
+  const [openLinkModal, setOpenLinkModal] = React.useState(false);
+  const [openQrCodeModal, setOpenQrCodeModal] = React.useState(false);
+
+  const handleOpenLink = () => {
+    if (numero.length === 0) {
       alert('Digite o seu número')
-      setOpen(false)
     } else {
-      setOpen(true)
+      setOpenLinkModal(true)
     }
   };
-  const handleClose = () => setOpen(false);
 
-  const chamarFuncoes = () => {
-    handleOpen()
-    pegarTexto()
-    pegarEspaco()
-  }
+  const handleOpenQrCode = () => {
+    if (numero.length === 0) {
+      alert('Digite o seu número')
+    } else {
+      setOpenQrCodeModal(true)
+    }
+  };
+
+  const handleClose = () => {
+    setOpenLinkModal(false);
+    setOpenQrCodeModal(false);
+  };
 
   return (
-    <div className={styles.modal}>
-      <Button onClick={chamarFuncoes}>Gerar Link</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <div className={styles.box}>
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              <h2>O seu link está pronto!</h2>
-            </Typography>
-            <div className={styles.linkGerado}>
-              <h1>https://wa.me/+55{numero}?text={texto}</h1>
+    <>
+      <div className={styles.modalLink}>
+        <Button onClick={handleOpenLink}>Gerar Link</Button>
+        <Modal
+          open={openLinkModal}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <div className={styles.box}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                <h2>O seu link está pronto!</h2>
+              </Typography>
+              <div className={styles.linkGerado}>
+                <h1>https://wa.me/+55{numero}?text={encodeURIComponent(texto)}</h1>
+              </div>
             </div>
-          </div>
-        </Box>
-      </Modal>
-    </div>
+          </Box>
+        </Modal>
+      </div>
+
+      <div className={styles.modalQrCode}>
+        <Button onClick={handleOpenQrCode}>Gerar Qr Code (novo)</Button>
+        <Modal
+          open={openQrCodeModal}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <div className={styles.box}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                <h2>O seu Qr Code está pronto!</h2>
+              </Typography>
+              <div className={styles.QrCodeGerado}>
+                <QRCodeGenerator 
+                texto={texto}
+                numero={numero}
+                />
+              </div>
+            </div>
+          </Box>
+        </Modal>
+      </div>
+    </>
   );
 }

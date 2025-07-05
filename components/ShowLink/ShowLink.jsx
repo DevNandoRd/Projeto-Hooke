@@ -3,8 +3,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import styles from '../ShowLink/ShowLink.module.css'
-import QRCodeGenerator from "../GeradorQrCode/QRCodeGenerator"
+import styles from '../ShowLink/ShowLink.module.css';
+import QRCodeGenerator from "../GeradorQrCode/QRCodeGenerator";
 
 const style = {
   position: 'absolute',
@@ -23,18 +23,18 @@ export default function ShowLink({ texto, numero }) {
   const [openQrCodeModal, setOpenQrCodeModal] = React.useState(false);
 
   const handleOpenLink = () => {
-    if (numero.length === 0) {
-      alert('Digite o seu número')
+    if (!numero || numero.length === 0) {
+      alert('Digite o seu número');
     } else {
-      setOpenLinkModal(true)
+      setOpenLinkModal(true);
     }
   };
 
   const handleOpenQrCode = () => {
-    if (numero.length === 0) {
-      alert('Digite o seu número')
+    if (!numero || numero.length === 0) {
+      alert('Digite o seu número');
     } else {
-      setOpenQrCodeModal(true)
+      setOpenQrCodeModal(true);
     }
   };
 
@@ -42,6 +42,9 @@ export default function ShowLink({ texto, numero }) {
     setOpenLinkModal(false);
     setOpenQrCodeModal(false);
   };
+
+  const numeroFormatado = numero?.replace(/\D/g, '');
+  const link = `https://wa.me/55${numeroFormatado}?text=${encodeURIComponent(texto)}`;
 
   return (
     <>
@@ -59,7 +62,18 @@ export default function ShowLink({ texto, numero }) {
                 <h2>O seu link está pronto!</h2>
               </Typography>
               <div className={styles.linkGerado}>
-                <h1>https://wa.me/+55{numero}?text={encodeURIComponent(texto)}</h1>
+                <h1>{link}</h1>
+                <Button
+                  onClick={() => {
+                    navigator.clipboard.writeText(link);
+                    alert("Link copiado!");
+                  }}
+                  variant="outlined"
+                  size="small"
+                  sx={{ mt: 2 }}
+                >
+                  Copiar Link
+                </Button>
               </div>
             </div>
           </Box>
@@ -81,8 +95,8 @@ export default function ShowLink({ texto, numero }) {
               </Typography>
               <div className={styles.QrCodeGerado}>
                 <QRCodeGenerator 
-                texto={texto}
-                numero={numero}
+                  texto={texto}
+                  numero={numero}
                 />
               </div>
             </div>

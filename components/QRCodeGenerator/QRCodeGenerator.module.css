@@ -1,0 +1,63 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.qrCodeWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.qrCodeSvg {
+  border-radius: 8px;
+}
+
+.downloadSection {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.downloadButton {
+  padding: 12px 24px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.downloadButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+
+  .qrCodeWrapper {
+    padding: 0.75rem;
+  }
+
+  .downloadButton {
+    width: 100%;
+    max-width: 200px;
+  }
+}
+

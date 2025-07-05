@@ -1,69 +1,83 @@
-import { Container } from "@mui/material";
-import GeradorLink from "../GeradorLink/GeradorLink";
-import styles from '../Main/Main.module.css'
+import React from 'react';
+import { Container, Grid, Box } from "@mui/material";
 import Image from "next/image";
-export default function Main() {
-    return (
+import LinkGenerator from "../LinkGenerator/LinkGenerator";
+import styles from './Main.module.css';
 
-        <>
-            <div className={styles.container}>
-                <h1>Crie seu link personalizado aqui</h1>
-                <Container>
-                    <main className={styles.main}>
-                        <div className="flex">
-                            <GeradorLink />
-                        </div>
-                        <div className={styles.boxList}>
-                            <div className={styles.box}>
-                                <Image 
-                            alt="comunicação"
-                            src='/assets/comunicacao.png'
-                            width={52}
-                            height={52}
-                            className={styles.icon}
-                                />
-                                <div className={styles.titulo}>
-                                <h2>Facilidade de Comunicação</h2>
-                                <p>
-                                Um link personalizado simplifica o processo de comunicação, permitindo que os usuários iniciem uma conversa no WhatsApp com apenas um clique.
-                                </p>
-                                </div>
-                            </div>
-                            <div className={styles.box}>
-                                <Image 
-                            alt="Mensagem Personalizada"
-                            src='/assets/personalizado.png'
-                            width={52}
-                            height={52}
-                            className={styles.icon}
-                                />
-                                <div className={styles.titulo}>
-                                <h2>Customização da Mensagem</h2>
-                                <p>
-                                Com um link personalizado, você pode pré-definir uma mensagem que será exibida na conversa do WhatsApp, facilitando o início da interação.
-                                </p>
-                                </div>
-                            </div>
-                            <div className={styles.box}>
-                                <Image 
-                            alt="Economia de tempo"
-                            src='/assets/tempo.png'
-                            width={52}
-                            height={52}
-                            className={styles.icon}
-                                />
-                                <div className={styles.titulo}>
-                                <h2>Economia de Tempo</h2>
-                                <p>
-                                Link direto para o WhatsApp, você economiza tempo para os clientes, evitando procurar manualmente um número de telefone e iniciar uma conversa.
-                                </p>
-                                </div>
-                            </div>
-                        </div>
-                    </main>
-                </Container>
-            </div>
-        </>
+/**
+ * Refactored Main component with improved structure
+ * - Better semantic HTML structure
+ * - Improved responsive design with Grid system
+ * - Enhanced accessibility with proper alt texts
+ * - Cleaner component organization
+ */
+const Main = () => {
+  const features = [
+    {
+      icon: '/assets/comunicacao.png',
+      title: 'Facilidade de Comunicação',
+      description: 'Um link personalizado simplifica o processo de comunicação, permitindo que os usuários iniciem uma conversa no WhatsApp com apenas um clique.'
+    },
+    {
+      icon: '/assets/personalizado.png',
+      title: 'Customização da Mensagem',
+      description: 'Com um link personalizado, você pode pré-definir uma mensagem que será exibida na conversa do WhatsApp, facilitando o início da interação.'
+    },
+    {
+      icon: '/assets/tempo.png',
+      title: 'Economia de Tempo',
+      description: 'Elimine a necessidade de digitar números e mensagens repetidamente. Com um clique, seus clientes podem entrar em contato diretamente.'
+    }
+  ];
 
-    )
-}
+  return (
+    <main className={styles.container}>
+      <Container maxWidth="lg">
+        <section className={styles.generatorSection}>
+          <h1 className={styles.mainTitle}>
+            Crie seu link personalizado aqui
+          </h1>
+          
+          <Box className={styles.generatorWrapper}>
+            <LinkGenerator />
+          </Box>
+        </section>
+
+        <section className={styles.featuresSection}>
+          <h2 className={styles.featuresTitle}>
+            Por que usar links personalizados?
+          </h2>
+          
+          <Grid container spacing={4} className={styles.featuresGrid}>
+            {features.map((feature, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <article className={styles.featureCard}>
+                  <div className={styles.featureIcon}>
+                    <Image 
+                      alt={feature.title}
+                      src={feature.icon}
+                      width={52}
+                      height={52}
+                    />
+                  </div>
+                  
+                  <div className={styles.featureContent}>
+                    <h3 className={styles.featureTitle}>
+                      {feature.title}
+                    </h3>
+                    <p className={styles.featureDescription}>
+                      {feature.description}
+                    </p>
+                  </div>
+                </article>
+              </Grid>
+            ))}
+          </Grid>
+        </section>
+      </Container>
+    </main>
+  );
+};
+
+export default Main;
+

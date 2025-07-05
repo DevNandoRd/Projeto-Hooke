@@ -1,63 +1,93 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { Button, Container } from "@mui/material";
-import styles from '../Header/Header.module.css'
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import Navigation from '../Navigation/Navigation';
+import NotificationProvider from '../NotificationProvider/NotificationProvider';
+import { useNotification } from '../../hooks/useNotification';
+import styles from './Header.module.css';
 
-export default function Header() {
-    const [toggle, setToggle] = useState(false)
+/**
+ * Refactored Header component with improved structure and functionality
+ * - Separated navigation logic into its own component
+ * - Replaced alert() with elegant notification system
+ * - Improved accessibility and mobile responsiveness
+ */
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { notification, showComingSoonMessage, hideNotification } = useNotification();
 
-    const openToggle = () => {
-        setToggle(!toggle)
-    }
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
-    const alerta = () => {
-        alert('Está opção estará disponível em breve')
-    }
+  const handleMenuItemClick = () => {
+    showComingSoonMessage();
+    setIsMenuOpen(false); // Close mobile menu after click
+  };
 
-    return (
-
-        <>
-            <div className={styles.container}>
-                <Container maxWidth='lg'>
-                <header className={styles.header}>
-                    <div >
-                        <Image
-                            alt="Hook"
-                            src='/assets/hook-logo.png'
-                            width={50}
-                            height={50}
-                        />
-                    </div>
-                    <div className={styles.menu}>
-                        <nav>
-                            <ul className="flex gap-4" onClick={alerta}>
-                                <li >Home</li>
-                                <li >Sobre</li>
-                                <li >Serviços</li>
-                                <li >Suporte</li>
-                            </ul>
-                        </nav>
-                        <Button variant="contained">Seja Premium</Button>
-                    </div>
-
-                    <div className={styles.toggle} onClick={openToggle}>{toggle ? <MenuOpenIcon/> : <MenuIcon/>}</div>
-
-                    <div className={toggle ? styles.menuBarOpen : styles.menuBarClose}>
-                        <nav>
-                            <ul className="flex gap-4" onClick={alerta}>
-                                <li >Home</li>
-                                <li >Sobre</li>
-                                <li >Serviços</li>
-                                <li >Suporte</li>
-                            </ul>
-                        </nav>
-                    </div>
-                </header>
-                </Container>
+  return (
+    <>
+      <div className={styles.container}>
+        <Container maxWidth='lg'>
+          <header className={styles.header}>
+            <div className={styles.logo}>
+              <Image
+                alt="Hook Logo"
+                src='/assets/hook-logo.png'
+                width={50}
+                height={50}
+                priority
+              />
             </div>
-        </>
+            
+            {/* Desktop Navigation */}
+            <div className={styles.desktopMenu}>
+              <Navigation onMenuClick={handleMenuItemClick} />
+              <Button 
+                variant="contained" 
+                color="primary"
+                className={styles.premiumButton}
+                onClick={showComingSoonMessage}
+              >
+                Seja Premium
+              </Button>
+            </div>
 
-    )
-}
+            {/* Mobile Menu Toggle */}
+            <button 
+              className={styles.menuToggle} 
+              onClick={toggleMenu}
+              aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
+              aria-expanded={isMenuOpen}
+            >
+              {isMenuOpen ? <MenuOpenIcon /> : <MenuIcon />}
+            </button>
+
+            {/* Mobile Navigation */}
+            <div className={`${styles.mobileMenu} ${isMenuOpen ? styles.mobileMenuOpen : styles.mobileMenuClose}`}>
+              <Navigation onMenuClick={handleMenuItemClick} />
+              <Button 
+                variant="contained" 
+                color="primary"
+                className={styles.premiumButton}
+                onClick={showComingSoonMessage}
+              >
+                Seja Premium
+              </Button>
+            </div>
+          </header>
+        </Container>
+      </div>
+      
+      <NotificationProvider 
+        notification={notification} 
+        onClose={hideNotification} 
+      />
+    </>
+  );
+};
+
+export default Header;
+

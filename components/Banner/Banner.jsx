@@ -1,29 +1,51 @@
-import { Button, Container } from "@mui/material"
-import styles from '../Banner/Banner.module.css'
+import React from 'react';
+import { Button, Container } from "@mui/material";
+import NotificationProvider from '../NotificationProvider/NotificationProvider';
+import { useNotification } from '../../hooks/useNotification';
+import styles from './Banner.module.css';
 
-export default function Banner() {
-    const alerta = () => {
-        alert('Está opção estará disponível em breve')
-    }
-    return (
-        <>
+/**
+ * Refactored Banner component with improved structure
+ * - Replaced alert() with elegant notification system
+ * - Improved semantic HTML structure
+ * - Better accessibility with proper heading hierarchy
+ */
+const Banner = () => {
+  const { notification, showComingSoonMessage, hideNotification } = useNotification();
 
-            <div className={styles.container}>
-                <Container maxWidth='lg'>
-                <section className={styles.section}>
-                    <div className={styles.titulo}>
-                        <h1>Gere links personalizados
-                            em segundos
-                        </h1>
-                        <h2>O Hook é a ferramenta perfeita para aumentar
-                            suas vendas e engajamento.
-                        </h2>
-                        <Button variant="contained" color="primary">Seja Premium</Button>
-                    </div>
-                </section>
-                </Container>
+  return (
+    <>
+      <section className={styles.container}>
+        <Container maxWidth='lg'>
+          <div className={styles.content}>
+            <div className={styles.textContent}>
+              <h1 className={styles.title}>
+                Gere links personalizados em segundos
+              </h1>
+              <p className={styles.subtitle}>
+                O Hook é a ferramenta perfeita para aumentar suas vendas e engajamento.
+              </p>
+              <Button 
+                variant="contained" 
+                color="primary"
+                size="large"
+                className={styles.ctaButton}
+                onClick={showComingSoonMessage}
+              >
+                Seja Premium
+              </Button>
             </div>
+          </div>
+        </Container>
+      </section>
+      
+      <NotificationProvider 
+        notification={notification} 
+        onClose={hideNotification} 
+      />
+    </>
+  );
+};
 
-        </>
-    )
-}
+export default Banner;
+

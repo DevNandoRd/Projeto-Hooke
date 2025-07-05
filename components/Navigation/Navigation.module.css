@@ -1,0 +1,35 @@
+.menuList {
+  display: flex;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.menuItem {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.menuItem:hover {
+  color: #3498DB;
+}
+
+.menuLink {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.menuLink:hover {
+  color: #3498DB;
+}
+
+@media screen and (max-width: 768px) {
+  .menuList {
+    flex-direction: column;
+    gap: 1.5rem;
+    text-align: center;
+  }
+}
+

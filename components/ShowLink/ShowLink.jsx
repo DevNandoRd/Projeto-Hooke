@@ -63,14 +63,11 @@ export default function ShowLink({ texto, numero }) {
               </Typography>
               <div className={styles.linkGerado}>
                 <h1>{link}</h1>
-                <Button
+                <Button className={styles.btnCopy}
                   onClick={() => {
                     navigator.clipboard.writeText(link);
                     alert("Link copiado!");
-                  }}
-                  variant="outlined"
-                  size="small"
-                  sx={{ mt: 2 }}
+                  }} sx={{ mt: 2 }}
                 >
                   Copiar Link
                 </Button>

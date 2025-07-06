@@ -15,12 +15,12 @@ const Main = () => {
   const features = [
     {
       icon: '/assets/comunicacao.png',
-      title: 'Facilidade de Comunicação',
+      title: 'Facilidade',
       description: 'Um link personalizado simplifica o processo de comunicação, permitindo que os usuários iniciem uma conversa no WhatsApp com apenas um clique.'
     },
     {
       icon: '/assets/personalizado.png',
-      title: 'Customização da Mensagem',
+      title: 'Customização',
       description: 'Com um link personalizado, você pode pré-definir uma mensagem que será exibida na conversa do WhatsApp, facilitando o início da interação.'
     },
     {

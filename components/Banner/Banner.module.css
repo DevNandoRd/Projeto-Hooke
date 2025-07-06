@@ -1,24 +1,13 @@
 .container {
   display: flex;
   align-items: center;
-  min-height: 500px;
-  padding: 40px 0;
+  min-height: 460px;
+  padding: 60px 0;
   background-image: url(/assets/banner.jpg);
   background-position: top center;
-  background-size: cover;
+  background-size: ;
   background-repeat: no-repeat;
   position: relative;
-}
-
-.container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 1;
 }
 
 .content {
@@ -52,16 +41,19 @@
 
 .ctaButton {
   align-self: flex-start;
-  padding: 12px 32px;
+  padding: 12px 50px;
   font-size: 1.1rem;
   font-weight: 600;
   transition: all 0.3s ease;
-  border-radius: 8px;
+  border-radius: 15px;
+  background-color: var(--Azul);
+  color: rgb(255, 255, 255);
 }
 
 .ctaButton:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+  background-color: var(--Verde);
+  box-shadow: 0 8px 25px rgba(32, 32, 32, 0.171);
 }
 
 /* Mobile Styles */

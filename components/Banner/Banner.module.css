@@ -50,7 +50,7 @@
 }
 
 .ctaButton:hover {
-  transform: scale(1.05);
+  transform: scale(1.05 ease);
   background-color: var(--Verde);
   box-shadow: 0 8px 25px rgba(32, 32, 32, 0.171);
 }
@@ -86,6 +86,7 @@
 
   .ctaButton {
     align-self: center;
+    width: 80%;
   }
 }
 

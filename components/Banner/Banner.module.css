@@ -5,7 +5,6 @@
   padding: 60px 0;
   background-image: url(/assets/banner.jpg);
   background-position: top center;
-  background-size: ;
   background-repeat: no-repeat;
   position: relative;
 }
@@ -62,7 +61,8 @@
     padding: 60px 20px;
     background-image: url(/assets/banner-mobile.jpg);
     background-position: bottom center;
-    min-height: 700px;
+    min-height: 840px;
+    background-size: cover;
     align-items: start;
   }
 

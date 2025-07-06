@@ -91,7 +91,7 @@
 /* Mobile Styles */
 @media screen and (max-width: 768px) {
   .container {
-    padding: 2rem 0;
+    padding: 3rem 0;
   }
 
   .mainTitle {
@@ -105,7 +105,7 @@
   }
 
   .featureCard {
-    padding: 1.5rem;
+    padding: 2rem;
   }
 
   .featureTitle {

@@ -25,6 +25,37 @@ export default function QRCodeGenerator({ texto, numero }) {
     }
   }, []);
 
+
+  const handleDownloadSVG = () => {
+    const svgEl = document.getElementById('qrcode');
+    if (!svgEl) return;
+    try {
+      // Ensure XML namespace for standalone SVG files
+      if (!svgEl.getAttribute('xmlns')) {
+        svgEl.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      }
+      const serializer = new XMLSerializer();
+      let source = serializer.serializeToString(svgEl);
+
+      // Add XML declaration for better compatibility
+      if (!source.startsWith('<?xml')) {
+        source = '<?xml version="1.0" encoding="UTF-8"?>\n' + source;
+      }
+
+      const blob = new Blob([source], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'qrcode.svg';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      console.error('Failed to download SVG:', e);
+    }
+  };
   return (
     <>
       <div className={styles.QrCode}>
@@ -36,7 +67,7 @@ export default function QRCodeGenerator({ texto, numero }) {
           includeMargin={true}
           className={styles.imgQrCode}
         />
-        {qrcodeLink && <a href={qrcodeLink} download={`qrcode.png`}><button>Download PNG</button></a>}
+        {qrcodeLink && <a href={qrcodeLink} download={`qrcode.png`}><button>Download PNG</button></a>}<button onClick={handleDownloadSVG}>Download SVG</button>
       </div>
     </>
   )

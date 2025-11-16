@@ -1,74 +1,72 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import QRCode from 'qrcode.react';
 import styles from "../GeradorQrCode/QRCode.module.css";
 
 export default function QRCodeGenerator({ texto, numero }) {
-  const [qrcodeLink, setQrcodeLink] = useState('');
+  const [qrcodePngLink, setQrcodePngLink] = useState('');
 
-  const handleGenerate = () => {
-    const qrCodeComponent = document.getElementById('qrcode');
+  const generateWhatsAppLink = useCallback(() => {
+    const cleanPhoneNumber = numero?.replace(/\D/g, '');
+    return `https://wa.me/+55${cleanPhoneNumber}?text=${encodeURIComponent(texto)}`;
+  }, [texto, numero]);
+
+  const handleGeneratePng = useCallback(() => {
+    const qrCodeComponent = document.getElementById('qrcode-svg');
     if (qrCodeComponent) {
       import('html-to-image').then(htmlToImage => {
         htmlToImage.toPng(qrCodeComponent)
           .then(function (dataUrl) {
-            setQrcodeLink(dataUrl);
+            setQrcodePngLink(dataUrl);
           })
           .catch(function (error) {
-            console.error('Erro ao gerar o QR Code:', error);
+            console.error('Erro ao gerar o QR Code PNG:', error);
           });
       });
     }
-  }
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      handleGenerate();
-    }
   }, []);
 
-
-  const handleDownloadSVG = () => {
-    const svgEl = document.getElementById('qrcode');
-    if (!svgEl) return;
-    try {
-      // Ensure XML namespace for standalone SVG files
-      if (!svgEl.getAttribute('xmlns')) {
-        svgEl.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-      }
-      const serializer = new XMLSerializer();
-      let source = serializer.serializeToString(svgEl);
-
-      // Add XML declaration for better compatibility
-      if (!source.startsWith('<?xml')) {
-        source = '<?xml version="1.0" encoding="UTF-8"?>\n' + source;
-      }
-
-      const blob = new Blob([source], { type: 'image/svg+xml;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'qrcode.svg';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    } catch (e) {
-      console.error('Failed to download SVG:', e);
+  const handleDownloadSvg = useCallback(() => {
+    const svgElement = document.getElementById('qrcode-svg');
+    if (svgElement) {
+      const svgData = new XMLSerializer().serializeToString(svgElement);
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+      const svgUrl = URL.createObjectURL(svgBlob);
+      const downloadLink = document.createElement('a');
+      downloadLink.href = svgUrl;
+      downloadLink.download = `qrcode-${numero}.svg`;
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+      URL.revokeObjectURL(svgUrl);
     }
-  };
+  }, [numero]);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && numero) {
+      handleGeneratePng();
+    }
+  }, [numero, texto, handleGeneratePng]);
+
+  const whatsappLink = generateWhatsAppLink();
+
   return (
     <>
       <div className={styles.QrCode}>
         <QRCode
-          id="qrcode"
-          value={`https://wa.me/+55${numero}?text=${encodeURIComponent(texto)}`}
+          id="qrcode-svg"
+          value={whatsappLink}
           renderAs='svg'
           size={500}
           includeMargin={true}
           className={styles.imgQrCode}
         />
-        {qrcodeLink && <a href={qrcodeLink} download={`qrcode.png`}><button>Download PNG</button></a>}<button onClick={handleDownloadSVG}>Download SVG</button>
+        <div className={styles.downloadButtons}>
+          {qrcodePngLink && <a href={qrcodePngLink} download={`qrcode-${numero}.png`}><button>Download PNG</button></a>}
+          <button onClick={handleDownloadSvg}>Download SVG</button>
+        </div>
       </div>
     </>
-  )
+  );
 }
+
+

@@ -1,7 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { QRCodeSVG } from 'qrcode.react';
-import { Button, Box, CircularProgress } from '@mui/material';
-import { Download as DownloadIcon } from '@mui/icons-material';
 import styles from "./QRCodeGenerator.module.css";
 
 /**
@@ -66,7 +64,7 @@ const QRCodeGenerator = ({ message, phoneNumber }) => {
   const whatsappLink = generateWhatsAppLink();
 
   return (
-    <Box className={styles.container}>
+    <div className={styles.container}>
       <div className={styles.qrCodeWrapper}>
         <QRCodeSVG
           id="qrcode-svg"
@@ -78,27 +76,27 @@ const QRCodeGenerator = ({ message, phoneNumber }) => {
         />
       </div>
       
-      <Box className={styles.downloadSection}>
+      <div className={styles.downloadSection}>
         {isGenerating ? (
-          <Box className={styles.loadingContainer}>
-            <CircularProgress size={24} />
+          <div className={styles.loadingContainer}>
+            <div className={styles.spinner}></div>
             <span>Gerando imagem...</span>
-          </Box>
+          </div>
         ) : (
           downloadUrl && (
-            <Button
-              variant="contained"
-              color="primary"
-              startIcon={<DownloadIcon />}
+            <button
               onClick={handleDownload}
               className={styles.downloadButton}
             >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" fill="currentColor"/>
+              </svg>
               Download PNG
-            </Button>
+            </button>
           )
         )}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 

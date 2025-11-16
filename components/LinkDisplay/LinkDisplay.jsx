@@ -1,35 +1,8 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Button,
-  Typography,
-  Modal,
-  TextField,
-  IconButton,
-  Tooltip
-} from '@mui/material';
-import {
-  ContentCopy as CopyIcon,
-  QrCode as QrCodeIcon,
-  Link as LinkIcon
-} from '@mui/icons-material';
 import QRCodeGenerator from "../QRCodeGenerator/QRCodeGenerator";
 import NotificationProvider from '../NotificationProvider/NotificationProvider';
 import { useNotification } from '../../hooks/useNotification';
 import styles from './LinkDisplay.module.css';
-
-const modalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: { xs: '90%', sm: 400 },
-  maxWidth: 500,
-  bgcolor: 'background.paper',
-  borderRadius: 2,
-  boxShadow: 24,
-  p: 4,
-};
 
 /**
  * Refactored LinkDisplay component (formerly ShowLink)
@@ -82,112 +55,96 @@ const LinkDisplay = ({ message, phoneNumber, isPhoneValid }) => {
 
   return (
     <>
-      <Box className={styles.container}>
+      <div className={styles.container}>
         <div className={styles.buttonGroup}>
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<LinkIcon />}
+          <button
             onClick={handleShowLink}
             disabled={!isPhoneValid}
             className={styles.actionButton}
           >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z" fill="currentColor"/>
+            </svg>
             Gerar Link
-          </Button>
+          </button>
           
-          <Button
-            variant="outlined"
-            color="primary"
-            startIcon={<QrCodeIcon />}
+          <button
             onClick={handleShowQrCode}
             disabled={!isPhoneValid}
-            className={styles.actionButton}
+            className={`${styles.actionButton} ${styles.outlinedButton}`}
           >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 11h8V3H3v8zm2-6h4v4H5V5zM13 3v8h8V3h-8zm6 6h-4V5h4v4zM3 21h8v-8H3v8zm2-6h4v4H5v-4zM16 13h2v2h-2zM18 15h2v2h-2zM16 17h2v2h-2zM18 19h2v2h-2zM20 13h2v2h-2zM20 17h2v2h-2z" fill="currentColor"/>
+            </svg>
             Gerar QR Code
-          </Button>
+          </button>
         </div>
-      </Box>
+      </div>
 
       {/* Link Modal */}
-      <Modal
-        open={openLinkModal}
-        onClose={handleCloseModals}
-        aria-labelledby="link-modal-title"
-        aria-describedby="link-modal-description"
-      >
-        <Box sx={modalStyle}>
-          <Typography id="link-modal-title" variant="h6" component="h2" gutterBottom>
-            Seu Link do WhatsApp
-          </Typography>
-          
-          <Box className={styles.linkContainer}>
-            <TextField
-              id="link-modal-description"
-              value={whatsappLink}
-              multiline
-              rows={3}
-              fullWidth
-              variant="outlined"
-              InputProps={{
-                readOnly: true,
-              }}
-            />
+      {openLinkModal && (
+        <div className={styles.modalOverlay} onClick={handleCloseModals}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <h2 className={styles.modalTitle}>Seu Link do WhatsApp</h2>
             
-            <Tooltip title="Copiar link">
-              <IconButton
+            <div className={styles.linkContainer}>
+              <textarea
+                value={whatsappLink}
+                readOnly
+                rows={3}
+                className={styles.linkInput}
+              />
+              
+              <button
                 onClick={() => copyToClipboard(whatsappLink)}
-                color="primary"
                 className={styles.copyButton}
+                title="Copiar link"
+                aria-label="Copiar link"
               >
-                <CopyIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          
-          <Box className={styles.modalActions}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => window.open(whatsappLink, '_blank')}
-              className={styles.testButton}
-            >
-              Testar Link
-            </Button>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z" fill="currentColor"/>
+                </svg>
+              </button>
+            </div>
             
-            <Button
-              variant="outlined"
-              onClick={handleCloseModals}
-            >
-              Fechar
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+            <div className={styles.modalActions}>
+              <button
+                onClick={() => window.open(whatsappLink, '_blank')}
+                className={styles.testButton}
+              >
+                Testar Link
+              </button>
+              
+              <button
+                onClick={handleCloseModals}
+                className={styles.closeButton}
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* QR Code Modal */}
-      <Modal
-        open={openQrCodeModal}
-        onClose={handleCloseModals}
-        aria-labelledby="qr-modal-title"
-      >
-        <Box sx={modalStyle}>
-          <Typography id="qr-modal-title" variant="h6" component="h2" gutterBottom>
-            QR Code do WhatsApp
-          </Typography>
-          
-          <QRCodeGenerator message={message} phoneNumber={phoneNumber} />
-          
-          <Box className={styles.modalActions}>
-            <Button
-              variant="outlined"
-              onClick={handleCloseModals}
-              fullWidth
-            >
-              Fechar
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+      {openQrCodeModal && (
+        <div className={styles.modalOverlay} onClick={handleCloseModals}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <h2 className={styles.modalTitle}>QR Code do WhatsApp</h2>
+            
+            <QRCodeGenerator message={message} phoneNumber={phoneNumber} />
+            
+            <div className={styles.modalActions}>
+              <button
+                onClick={handleCloseModals}
+                className={styles.closeButton}
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <NotificationProvider 
         notification={notification} 
@@ -198,4 +155,3 @@ const LinkDisplay = ({ message, phoneNumber, isPhoneValid }) => {
 };
 
 export default LinkDisplay;
-

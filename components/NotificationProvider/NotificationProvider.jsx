@@ -1,27 +1,37 @@
-import React from 'react';
-import { Snackbar, Alert } from '@mui/material';
+import React, { useEffect } from 'react';
+import styles from './NotificationProvider.module.css';
 
 /**
  * Notification component to replace alert() calls
  * Provides a more elegant user experience
  */
 const NotificationProvider = ({ notification, onClose }) => {
+  useEffect(() => {
+    if (notification.open) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 4000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification.open, onClose]);
+
+  if (!notification.open) return null;
+
+  const severityClass = notification.severity || 'info';
+
   return (
-    <Snackbar
-      open={notification.open}
-      autoHideDuration={4000}
-      onClose={onClose}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-    >
-      <Alert 
-        onClose={onClose} 
-        severity={notification.severity}
-        variant="filled"
-        sx={{ width: '100%' }}
-      >
-        {notification.message}
-      </Alert>
-    </Snackbar>
+    <div className={`${styles.snackbar} ${styles[severityClass]}`}>
+      <div className={styles.alert}>
+        <span className={styles.message}>{notification.message}</span>
+        <button 
+          className={styles.closeButton}
+          onClick={onClose}
+          aria-label="Fechar notificação"
+        >
+          ×
+        </button>
+      </div>
+    </div>
   );
 };
 

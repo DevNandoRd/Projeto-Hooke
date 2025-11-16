@@ -1,7 +1,6 @@
 'use client'
 import { useState } from 'react';
 import styles from '../GeradorLink/Gerador.module.css';
-import { TextField } from "@mui/material";
 import ShowLink from '../ShowLink/ShowLink';
 
 export default function GeradorLink() {
@@ -23,29 +22,29 @@ export default function GeradorLink() {
     <>
       <div className={styles.form}>
         <h2>Digite o seu número com DDD</h2>
-        <TextField
-          label="Digite o número aqui"
+        <input
           type="tel"
+          placeholder="Digite o número aqui"
           value={numero}
           onChange={handleNumber}
-          inputProps={{ maxLength: 13 }}
+          maxLength={13}
+          className={styles.input}
           required
         />
 
         <h2>Personalize o seu link com uma mensagem</h2>
-        <TextField
-          id="outlined-multiline-static"
-          label="Seu texto aqui"
-          multiline
+        <textarea
+          placeholder="Seu texto aqui"
           rows={4}
           value={texto}
           onChange={handleText}
+          className={styles.textarea}
         />
 
         <ShowLink
-  texto={texto}
-  numero={numero}
-/>
+          texto={texto}
+          numero={numero}
+        />
       </div>
     </>
   );

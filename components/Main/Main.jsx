@@ -1,5 +1,4 @@
 import React from 'react';
-import { Container, Grid, Box } from "@mui/material";
 import Image from "next/image";
 import LinkGenerator from "../LinkGenerator/LinkGenerator";
 import styles from './Main.module.css';
@@ -32,15 +31,15 @@ const Main = () => {
 
   return (
     <main className={styles.container}>
-      <Container maxWidth="lg">
+      <div className={styles.containerWrapper}>
         <section className={styles.generatorSection}>
           <h1 className={styles.mainTitle}>
             Crie seu link personalizado aqui
           </h1>
           
-          <Box className={styles.generatorWrapper}>
+          <div className={styles.generatorWrapper}>
             <LinkGenerator />
-          </Box>
+          </div>
         </section>
 
         <section className={styles.featuresSection}>
@@ -48,33 +47,31 @@ const Main = () => {
             Por que usar links personalizados?
           </h2>
           
-          <Grid container spacing={4} className={styles.featuresGrid}>
+          <div className={styles.featuresGrid}>
             {features.map((feature, index) => (
-              <Grid item xs={12} md={4} key={index}>
-                <article className={styles.featureCard}>
-                  <div className={styles.featureIcon}>
-                    <Image 
-                      alt={feature.title}
-                      src={feature.icon}
-                      width={52}
-                      height={52}
-                    />
-                  </div>
-                  
-                  <div className={styles.featureContent}>
-                    <h3 className={styles.featureTitle}>
-                      {feature.title}
-                    </h3>
-                    <p className={styles.featureDescription}>
-                      {feature.description}
-                    </p>
-                  </div>
-                </article>
-              </Grid>
+              <article key={index} className={styles.featureCard}>
+                <div className={styles.featureIcon}>
+                  <Image 
+                    alt={feature.title}
+                    src={feature.icon}
+                    width={52}
+                    height={52}
+                  />
+                </div>
+                
+                <div className={styles.featureContent}>
+                  <h3 className={styles.featureTitle}>
+                    {feature.title}
+                  </h3>
+                  <p className={styles.featureDescription}>
+                    {feature.description}
+                  </p>
+                </div>
+              </article>
             ))}
-          </Grid>
+          </div>
         </section>
-      </Container>
+      </div>
     </main>
   );
 };
